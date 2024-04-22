@@ -44,13 +44,13 @@ public class StudentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody @Valid Student student) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-        if (optionalStudent.isPresent()) {
-            student.setId(id);
-            return ResponseEntity.ok(studentRepository.save(student));
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Student> putStudent(@PathVariable long id, @RequestBody @Valid Student student) {
+        return studentRepository.findById(id)
+                .map(studentFromDb -> {
+                    student.setId(id);
+                    return ResponseEntity.ok(studentRepository.save(student));
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PatchMapping("{id}")

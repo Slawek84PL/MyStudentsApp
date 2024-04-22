@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -55,16 +54,26 @@ public class StudentController {
 
     @PatchMapping("{id}")
     public ResponseEntity<Student> patchStudent(@PathVariable long id, @RequestBody @Valid Student student) {
-        return null;
+        return studentRepository.findById(id)
+                .map(studentFromDb -> {
+                    if (!student.getFirstName().isEmpty()) {
+                        studentFromDb.setFirstName(student.getFirstName());
+                    }
+                    if (!student.getLastName().isEmpty()) {
+                        studentFromDb.setLastName(student.getLastName());
+                    }
+                    return ResponseEntity.ok(studentRepository.save(studentFromDb));
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable long id) {
         return studentRepository.findById(id)
-                        .map(student -> {
-                            studentRepository.delete(student);
-                            return ResponseEntity.noContent().build();
-                                })
+                .map(student -> {
+                    studentRepository.delete(student);
+                    return ResponseEntity.noContent().build();
+                })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

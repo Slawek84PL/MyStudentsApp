@@ -1,0 +1,18 @@
+spring:
+  application.name: students
+
+  jpa:
+    hibernate.ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+    show-sql: true
+
+  datasource:
+    url: jdbc:h2:file:./students
+
+show:
+  dogs: false
+my:
+  dogs: Reksio, Bonzo, Inka, Azor

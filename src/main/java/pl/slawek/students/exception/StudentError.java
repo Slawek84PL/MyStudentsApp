@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public enum StudentError {
 
-    STUDENT_NOT_FOUND("Student dose not exist");
+    STUDENT_NOT_FOUND("Student dose not exist"),
+    EMAIL_EXIST("Email exist in database");
 
-    private String message;
+    private final String message;
 }

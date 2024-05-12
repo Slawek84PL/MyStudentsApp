@@ -1,7 +1,6 @@
 package pl.slawek.students.model.student;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.slawek.students.exception.StudentError;
 import pl.slawek.students.exception.StudentException;
@@ -21,6 +20,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
+        if (studentRepository.findByEmail(student.getEmail()).isPresent()) {
+            throw new StudentException(StudentError.EMAIL_EXIST);
+        }
         return studentRepository.save(student);
     }
 

@@ -13,4 +13,6 @@ public interface StudentService {
     Student putStudent(Long id, Student student);
 
     Student patchStudent(Long id, Student student);
+
+    Student getStudent(long id);
 }

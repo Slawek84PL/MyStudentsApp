@@ -1,6 +1,7 @@
 package pl.slawek.students.model.student;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.slawek.students.exception.StudentError;
 import pl.slawek.students.exception.StudentException;
@@ -52,6 +53,12 @@ public class StudentServiceImpl implements StudentService {
                     }
                     return studentRepository.save(studentFromDb);
                 })
+                .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
+    }
+
+    @Override
+    public Student getStudent(long id) {
+        return studentRepository.findById(id)
                 .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
     }
 }

@@ -17,9 +17,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@SequenceGenerator(name = "seqIdGen", initialValue = 20000, allocationSize = 1)
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdGen")
     @Column(name = "id", nullable = false)
     private Long id;
 

@@ -22,58 +22,36 @@ import java.util.List;
 @RequestMapping("students")
 public class StudentController {
 
-    private final StudentRepository studentRepository;
+    private final StudentServiceImpl studentService;
 
     @GetMapping
     public ResponseEntity<List<Student>> getStudents() {
-        return ResponseEntity.ok(studentRepository.findAll());
+        return ResponseEntity.ok(studentService.getStudents());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Student addStudent(@RequestBody @Valid Student student) {
-        return studentRepository.save(student);
+        return studentService.addStudent(student);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable long id) {
-        return studentRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public Student getStudent(@PathVariable long id) {
+        return studentService.getStudent(id);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Student> putStudent(@PathVariable long id, @RequestBody @Valid Student student) {
-        return studentRepository.findById(id)
-                .map(studentFromDb -> {
-                    student.setId(id);
-                    return ResponseEntity.ok(studentRepository.save(student));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public Student putStudent(@PathVariable long id, @RequestBody @Valid Student student) {
+        return studentService.putStudent(id, student);
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Student> patchStudent(@PathVariable long id, @RequestBody @Valid Student student) {
-        return studentRepository.findById(id)
-                .map(studentFromDb -> {
-                    if (!student.getFirstName().isEmpty()) {
-                        studentFromDb.setFirstName(student.getFirstName());
-                    }
-                    if (!student.getLastName().isEmpty()) {
-                        studentFromDb.setLastName(student.getLastName());
-                    }
-                    return ResponseEntity.ok(studentRepository.save(studentFromDb));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public Student patchStudent(@PathVariable long id, @RequestBody @Valid Student student) {
+        return studentService.patchStudent(id, student);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable long id) {
-        return studentRepository.findById(id)
-                .map(student -> {
-                    studentRepository.delete(student);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public void deleteStudent(@PathVariable long id) {
+        studentService.deleteStudent(id);
     }
 }

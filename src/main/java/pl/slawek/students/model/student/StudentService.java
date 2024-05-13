@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    List<Student> getStudents();
+    List<Student> getStudents(String status);
 
     Student addStudent(Student student);
 

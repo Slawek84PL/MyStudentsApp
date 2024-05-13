@@ -2,6 +2,8 @@ package pl.slawek.students.model.student;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +21,7 @@ import lombok.Setter;
 @Entity
 @SequenceGenerator(name = "seqIdGen", initialValue = 20000, allocationSize = 1)
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdGen")
     @Column(name = "id", nullable = false)
@@ -35,4 +38,7 @@ public class Student {
     @Email
     @Column(unique = true)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

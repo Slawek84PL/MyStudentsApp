@@ -14,7 +14,15 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public List<Student> getStudents() {
+    public List<Student> getStudents(String status) {
+        if (status != null && !status.isEmpty()) {
+            try {
+                Status statusEnum = Status.valueOf(status.toUpperCase());
+                return studentRepository.findByStatus(statusEnum);
+            } catch (IllegalArgumentException e) {
+                throw new StudentException(StudentError.INCORRECT_STATUS);
+            }
+        }
         return studentRepository.findAll();
     }
 
@@ -30,7 +38,8 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
-        studentRepository.delete(student);
+        student.setStatus(Status.INACTIVE);
+        studentRepository.save(student);
     }
 
     @Override
@@ -53,6 +62,10 @@ public class StudentServiceImpl implements StudentService {
                     if (!student.getLastName().isEmpty()) {
                         studentFromDb.setLastName(student.getLastName());
                     }
+                    if(student.getStatus() != null) {
+                        studentFromDb.setStatus(student.getStatus());
+                    }
+
                     return studentRepository.save(studentFromDb);
                 })
                 .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
@@ -60,7 +73,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudent(long id) {
-        return studentRepository.findById(id)
+        Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
+        if (student.getStatus() == Status.INACTIVE) {
+            throw new StudentException(StudentError.STUDENT_INACTIVE);
+        }
+        return student;
     }
 }

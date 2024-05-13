@@ -50,10 +50,7 @@ public class StudentController {
     }
 
     @PatchMapping("{id}")
-    public Student patchStudent(@PathVariable long id, @RequestBody @Valid Student student, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new StudentException(StudentError.INCORRECT_STATUS);
-        }
+    public Student patchStudent(@PathVariable long id, @RequestBody @Valid Student student) {
         return studentService.patchStudent(id, student);
     }
 

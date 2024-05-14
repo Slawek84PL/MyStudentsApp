@@ -76,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudent(long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
-        if (student.getStatus() == Status.INACTIVE) {
+        if (Status.INACTIVE.equals(student.getStatus())) {
             throw new StudentException(StudentError.STUDENT_INACTIVE);
         }
         return student;

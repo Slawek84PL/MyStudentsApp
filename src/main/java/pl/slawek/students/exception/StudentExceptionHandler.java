@@ -10,20 +10,16 @@ public class StudentExceptionHandler {
 
     @ExceptionHandler(StudentException.class)
     public ResponseEntity<ErrorInfo> handleException(StudentException e) {
+
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+
         switch (e.getStudentError()) {
-            case StudentError.STUDENT_NOT_FOUND -> {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorInfo(e.getStudentError().getMessage()));
-            }
-            case StudentError.EMAIL_EXIST -> {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorInfo(e.getStudentError().getMessage()));
-            }
-            case INCORRECT_STATUS -> {
-                return ResponseEntity.status(HttpStatus.NOT_EXTENDED).body(new ErrorInfo(e.getStudentError().getMessage()));
-            }
-            case STUDENT_INACTIVE -> {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorInfo(e.getStudentError().getMessage()));
-            }
+            case STUDENT_NOT_FOUND -> httpStatus = HttpStatus.NOT_FOUND;
+            case EMAIL_EXIST -> httpStatus = HttpStatus.CONFLICT;
+            case INCORRECT_STATUS -> httpStatus = HttpStatus.BAD_REQUEST;
+            case STUDENT_INACTIVE -> httpStatus = HttpStatus.BAD_REQUEST;
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorInfo(e.getStudentError().getMessage()));
+
+        return ResponseEntity.status(httpStatus).body(new ErrorInfo(e.getStudentError().getMessage()));
     }
 }

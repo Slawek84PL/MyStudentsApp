@@ -12,7 +12,7 @@ public enum StudentError {
 
     STUDENT_NOT_FOUND("Student dose not exist"),
     EMAIL_EXIST("Email exist in database"),
-    INCORRECT_STATUS("Incorrect status of student. Use option " + Arrays.toString(Status.values())),
+    INCORRECT_STATUS("Incorrect student status. Use option " + Arrays.toString(Status.values())),
     STUDENT_INACTIVE("Student is not active");
 
     private final String message;

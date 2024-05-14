@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import pl.slawek.students.exception.StudentError;
-import pl.slawek.students.exception.StudentException;
 
 import java.util.List;
 
@@ -50,7 +47,7 @@ public class StudentController {
     }
 
     @PatchMapping("{id}")
-    public Student patchStudent(@PathVariable long id, @RequestBody @Valid Student student) {
+    public Student patchStudent(@PathVariable long id, @RequestBody Student student) {
         return studentService.patchStudent(id, student);
     }
 

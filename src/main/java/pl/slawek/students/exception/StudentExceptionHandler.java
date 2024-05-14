@@ -16,7 +16,7 @@ public class StudentExceptionHandler {
         switch (e.getStudentError()) {
             case STUDENT_NOT_FOUND -> httpStatus = HttpStatus.NOT_FOUND;
             case EMAIL_EXIST -> httpStatus = HttpStatus.CONFLICT;
-            case INCORRECT_STATUS -> httpStatus = HttpStatus.NOT_EXTENDED;
+            case INCORRECT_STATUS -> httpStatus = HttpStatus.BAD_REQUEST;
             case STUDENT_INACTIVE -> httpStatus = HttpStatus.BAD_REQUEST;
         }
 

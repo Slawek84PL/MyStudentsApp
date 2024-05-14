@@ -7,6 +7,8 @@ import pl.slawek.students.exception.StudentException;
 
 import java.util.List;
 
+import static org.apache.commons.lang.StringUtils.isEmpty;
+
 @RequiredArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -44,10 +46,13 @@ public class StudentServiceImpl implements StudentService {
     public Student putStudent(Long id, Student student) {
         return studentRepository.findById(id)
                 .map(studentFromDb -> {
-                    validateStudentEmailExist(student);
+                    if (!studentFromDb.getEmail().equals(student.getEmail()) && studentRepository.existsByEmail(student.getEmail())) {
+                        throw new StudentException(StudentError.EMAIL_EXIST);
+                    }
                     studentFromDb.setFirstName(student.getFirstName());
                     studentFromDb.setLastName(student.getLastName());
                     studentFromDb.setEmail(student.getEmail());
+                    studentFromDb.setStatus(student.getStatus());
                     return studentRepository.save(student);
                 })
                 .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
@@ -57,13 +62,13 @@ public class StudentServiceImpl implements StudentService {
     public Student patchStudent(Long id, Student student) {
         return studentRepository.findById(id)
                 .map(studentFromDb -> {
-                    if (!student.getFirstName().isEmpty()) {
+                    if (!isEmpty(student.getFirstName())) {
                         studentFromDb.setFirstName(student.getFirstName());
                     }
-                    if (!student.getLastName().isEmpty()) {
+                    if (!isEmpty(student.getLastName())) {
                         studentFromDb.setLastName(student.getLastName());
                     }
-                    if(student.getStatus() != null) {
+                    if(!isEmpty(String.valueOf(student.getStatus()))) {
                         studentFromDb.setStatus(student.getStatus());
                     }
 

@@ -41,6 +41,11 @@ public class StudentController {
         return studentService.getStudent(id);
     }
 
+    @GetMapping("email/{email}")
+    public Student getStudentByEmail(@PathVariable String email) {
+        return studentService.getStudentByEmail(email);
+    }
+
     @PutMapping("{id}")
     public Student putStudent(@PathVariable long id, @RequestBody @Valid Student student) {
         return studentService.putStudent(id, student);

@@ -87,6 +87,12 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
 
+    @Override
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email)
+                .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
+    }
+
     private void validateStudentEmailExist(Student student) {
         if (studentRepository.existsByEmail(student.getEmail())) {
             throw new StudentException(StudentError.EMAIL_EXIST);

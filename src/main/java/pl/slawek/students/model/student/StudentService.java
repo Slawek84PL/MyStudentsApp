@@ -16,5 +16,5 @@ public interface StudentService {
 
     Student getStudent(long id);
 
-    Student getStudentByEmail(String id);
+    List<Student> getStudentsByEmail(List<String> emails);
 }

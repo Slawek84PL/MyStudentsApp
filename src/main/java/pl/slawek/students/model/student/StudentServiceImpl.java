@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.slawek.students.exception.StudentError;
 import pl.slawek.students.exception.StudentException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
@@ -68,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
                     if (!isEmpty(student.getLastName())) {
                         studentFromDb.setLastName(student.getLastName());
                     }
-                    if(!isEmpty(String.valueOf(student.getStatus()))) {
+                    if (!isEmpty(String.valueOf(student.getStatus()))) {
                         studentFromDb.setStatus(student.getStatus());
                     }
 
@@ -88,9 +89,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentByEmail(String email) {
-        return studentRepository.findByEmail(email)
-                .orElseThrow(() -> new StudentException(StudentError.STUDENT_NOT_FOUND));
+    public List<Student> getStudentsByEmail(List<String> emails) {
+        List<Student> students = new ArrayList<>();
+        emails.forEach(email -> students.add(studentRepository.findByEmail(email)));
+        return students;
     }
 
     private void validateStudentEmailExist(Student student) {

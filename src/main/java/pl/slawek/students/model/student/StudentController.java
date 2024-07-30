@@ -31,9 +31,9 @@ public class StudentController {
         return studentService.getStudent(id);
     }
 
-    @GetMapping("email/{emails}")
-    public List<Student> getStudentByEmail(@PathVariable List<String> emails) {
-        return studentService.getStudentsByEmail(emails);
+    @PostMapping("emails")
+    public List<Student> getStudentsByEmails(@RequestBody List<String> emails) {
+        return studentService.getStudentsByEmails(emails);
     }
 
     @PutMapping("{id}")

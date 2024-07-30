@@ -89,10 +89,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsByEmail(List<String> emails) {
-        List<Student> students = new ArrayList<>();
-        emails.forEach(email -> students.add(studentRepository.findByEmail(email)));
-        return students;
+    public List<Student> getStudentsByEmails(List<String> emails) {
+        return studentRepository.findByEmailIn(emails);
     }
 
     private void validateStudentEmailExist(Student student) {

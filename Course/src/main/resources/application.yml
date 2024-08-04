@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: COURSE-SERVICE
+  rabbitmq:
+    host: raspberrypi
+    username: courseNote
+    password: pass
+
+  datasource:
+    url: mongodb://localhost:27017/course_service
+
+server:
+  port: 8087
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true

@@ -143,13 +143,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void closeCourse(String courseId) {
         Course course = getOneCourse(courseId);
         if (Status.INACTIVE.equals(course.getStatus())) {
             throw new CourseException(COURSE_INACTIVE_CONFLICT);
         }
         course.setStatus(Status.INACTIVE);
-        notificationService.sendNotification(courseId);
+        notificationService.sendNotification(course);
         courseRepository.save(course);
     }
 

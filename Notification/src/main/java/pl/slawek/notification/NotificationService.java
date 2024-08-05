@@ -1,5 +1,5 @@
 package pl.slawek.notification;
 
 public interface NotificationService {
-    void getNotifications();
+    void getNotifications(String courseId);
 }

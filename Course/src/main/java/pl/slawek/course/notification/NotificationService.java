@@ -11,7 +11,9 @@ public class NotificationService {
     private final RabbitTemplate rabbitTemplate;
 
     public void sendNotification(String courseId) {
-        rabbitTemplate.convertAndSend("kurs", courseId);
+        rabbitTemplate.setExchange("Student");
+        rabbitTemplate.setRoutingKey("StudentNotification");
+        rabbitTemplate.convertAndSend(courseId);
     }
 
 }

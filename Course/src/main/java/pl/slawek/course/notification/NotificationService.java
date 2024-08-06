@@ -1,12 +1,13 @@
 package pl.slawek.course.notification;
 
 import lombok.AllArgsConstructor;
-import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import pl.slawek.course.dto.NotificationInfoDto;
 import pl.slawek.course.dto.StudentMember;
 import pl.slawek.course.model.Course;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -19,10 +20,7 @@ public class NotificationService {
         rabbitTemplate.setRoutingKey("StudentNotification");
 
         NotificationInfoDto notificationInfoDto = NotificationInfoDto.builder()
-                .emails(course.getStudents()
-                        .stream()
-                        .map(StudentMember::getEmail)
-                        .toList())
+                .emails(getEmails(course))
                 .courseId(course.getId())
                 .courseName(course.getName())
                 .courseDescription(course.getDescription())
@@ -31,6 +29,13 @@ public class NotificationService {
                 .build();
 
         rabbitTemplate.convertAndSend(notificationInfoDto);
+    }
+
+    private List<String> getEmails(Course course) {
+        return course.getStudents()
+                .stream()
+                .map(StudentMember::getEmail)
+                .toList();
     }
 
 }

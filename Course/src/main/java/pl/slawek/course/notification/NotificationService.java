@@ -17,7 +17,7 @@ public class NotificationService {
 
     public void sendNotification(Course course) {
         rabbitTemplate.setExchange("Student");
-        rabbitTemplate.setRoutingKey("StudentNotification");
+        rabbitTemplate.setRoutingKey("enroll_finish");
 
         NotificationInfoDto notificationInfoDto = NotificationInfoDto.builder()
                 .emails(getEmails(course))

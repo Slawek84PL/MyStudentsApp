@@ -1,4 +1,4 @@
-package pl.slawek.notification;
+package pl.slawek.notification.model;
 
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 public class NotificationServiceImpl implements NotificationService {
 
     @Override
-    @RabbitListener(queues = "StudentNotification")
-    public void getNotifications(String courseId) {
+    @RabbitListener(queues = "enroll_finish")
+    public void handleFinishEnroll(String courseId) {
         System.out.println(courseId);
     }
 }

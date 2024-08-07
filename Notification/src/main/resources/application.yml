@@ -5,6 +5,18 @@ spring:
     host: raspberrypi
     username: courseNote
     password: pass
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: opiekunka81@gmail.com
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 
 server:
   port: 8088

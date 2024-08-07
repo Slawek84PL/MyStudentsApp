@@ -69,7 +69,8 @@ public class CourseController {
     }
 
     @PatchMapping("{id}/finish-enroll")
-    public void closeCourse(@PathVariable String id) {
+    public ResponseEntity<?> closeCourse(@PathVariable String id) {
         courseService.closeCourse(id);
+        return ResponseEntity.ok().build();
     }
 }
